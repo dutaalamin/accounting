@@ -26,11 +26,19 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('Plate Mill Teams')
+            ->brandName('Akurasi ERP')
             ->login()
+            ->spa()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => \Filament\Support\Colors\Color::Zinc, // Premium Monochrome
+                'gray' => \Filament\Support\Colors\Color::Zinc, // True black/gray base, no blue tint
+                'info' => \Filament\Support\Colors\Color::Sky,
+                'success' => \Filament\Support\Colors\Color::Emerald,
+                'warning' => \Filament\Support\Colors\Color::Amber,
+                'danger' => \Filament\Support\Colors\Color::Rose,
             ])
+            ->font('Inter')
+            ->darkMode(true, true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -52,10 +60,15 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
+                \App\Http\Middleware\AutoLoginMiddleware::class,
                 Authenticate::class,
             ])
             ->plugin(
                 \Saade\FilamentFullCalendar\FilamentFullCalendarPlugin::make()
+            )
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::BODY_END,
+                fn (): string => \Illuminate\Support\Facades\Blade::render('@include("filament.widgets.panduan-floating")'),
             );
     }
 }
