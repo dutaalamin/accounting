@@ -4,35 +4,70 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\Account;
+use App\Models\JournalEntryLine;
 
 class AccountTypePieChart extends ChartWidget
 {
-    protected static ?string $heading = 'Distribusi Akun per Tipe';
+    protected static ?string $heading = 'Komposisi Pengeluaran Bulan Ini';
     protected static ?int $sort = 2; // Posisi di bawah Stat Cards
 
     protected function getData(): array
     {
-        $types = ['asset', 'liability', 'equity', 'revenue', 'expense'];
+        $startOfMonth = now()->startOfMonth()->format('Y-m-d');
+        $endOfMonth = now()->endOfMonth()->format('Y-m-d');
+
+        // Ambil semua akun tipe expense
+        $expenseAccounts = Account::where('type', 'expense')->get();
+
+        $labels = [];
         $data = [];
-        foreach ($types as $type) {
-            $data[] = Account::where('type', $type)->count();
+        $colors = [
+            '#ef4444', // red
+            '#f59e0b', // amber
+            '#8b5cf6', // violet
+            '#ec4899', // pink
+            '#06b6d4', // cyan
+            '#84cc16', // lime
+            '#f97316', // orange
+            '#6366f1', // indigo
+            '#14b8a6', // teal
+            '#e11d48', // rose
+        ];
+
+        foreach ($expenseAccounts as $index => $account) {
+            $debit = JournalEntryLine::where('account_id', $account->id)
+                ->whereHas('journalEntry', function ($q) use ($startOfMonth, $endOfMonth) {
+                    $q->whereBetween('date', [$startOfMonth, $endOfMonth]);
+                })->sum('debit');
+            $credit = JournalEntryLine::where('account_id', $account->id)
+                ->whereHas('journalEntry', function ($q) use ($startOfMonth, $endOfMonth) {
+                    $q->whereBetween('date', [$startOfMonth, $endOfMonth]);
+                })->sum('credit');
+
+            $total = max(0, $debit - $credit);
+
+            if ($total > 0) {
+                $labels[] = $account->name;
+                $data[] = $total;
+            }
+        }
+
+        // Jika belum ada pengeluaran bulan ini, tampilkan pesan
+        if (empty($data)) {
+            $labels = ['Belum ada pengeluaran'];
+            $data = [1];
+            $colors = ['#d1d5db']; // gray
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Jumlah Akun',
+                    'label' => 'Jumlah (Rp)',
                     'data' => $data,
-                    'backgroundColor' => [
-                        '#10b981', // emerald-500 (Asset)
-                        '#ef4444', // red-500 (Liability)
-                        '#3b82f6', // blue-500 (Equity)
-                        '#14b8a6', // teal-500 (Revenue)
-                        '#f59e0b', // amber-500 (Expense)
-                    ],
+                    'backgroundColor' => array_slice($colors, 0, count($data)),
                 ],
             ],
-            'labels' => ['Harta / Kas', 'Hutang', 'Modal', 'Pendapatan', 'Pengeluaran'],
+            'labels' => $labels,
         ];
     }
 
