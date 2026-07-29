@@ -32,7 +32,7 @@ class AccountTypePieChart extends ChartWidget
                     ],
                 ],
             ],
-            'labels' => ['Asset', 'Liability', 'Equity', 'Revenue', 'Expense'],
+            'labels' => ['Harta / Kas', 'Hutang', 'Modal', 'Pendapatan', 'Pengeluaran'],
         ];
     }
 

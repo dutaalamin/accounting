@@ -51,6 +51,13 @@ class VendorResource extends Resource
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Telepon')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Alamat')
+                    ->limit(50)
+                    ->searchable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

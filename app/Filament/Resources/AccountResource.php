@@ -68,6 +68,14 @@ class AccountResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->label('Kategori')
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'asset' => 'Harta / Kas',
+                        'liability' => 'Hutang',
+                        'equity' => 'Modal',
+                        'revenue' => 'Pemasukan',
+                        'expense' => 'Pengeluaran',
+                        default => $state,
+                    })
                     ->color(fn (string $state): string => match ($state) {
                         'asset' => 'success',
                         'liability' => 'danger',
@@ -81,17 +89,21 @@ class AccountResource extends Resource
                     ->label('Saldo Awal')
                     ->money('IDR')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('current_balance')
+                    ->label('Saldo Saat Ini')
+                    ->money('IDR')
+                    ->weight(\Filament\Support\Enums\FontWeight::Bold),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->hidden(fn (Account $record) => $record->journalEntryLines()->exists()),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Menonaktifkan hapus massal untuk mencegah penghapusan akun ber-history
             ]);
     }
 

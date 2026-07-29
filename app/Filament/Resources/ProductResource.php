@@ -14,32 +14,32 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationGroup = 'Inventaris / Gudang';
-    protected static ?string $modelLabel = 'Barang / Produk';
-    protected static ?string $pluralModelLabel = 'Daftar Barang & Produk';
-    protected static ?string $navigationLabel = 'Daftar Barang & Produk';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    protected static ?string $navigationGroup = 'Master Data';
+    protected static ?string $modelLabel = 'Layanan / Item';
+    protected static ?string $pluralModelLabel = 'Katalog Layanan & Item';
+    protected static ?string $navigationLabel = 'Katalog Layanan & Item';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('sku')
-                    ->label('Kode Barang (SKU)')
-                    ->helperText('Misal: BRG-001')
+                    ->label('Kode (Opsional)')
+                    ->helperText('Misal: JASA-001')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('name')
-                    ->label('Nama Barang')
+                    ->label('Nama Layanan / Item')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
-                    ->label('Harga Jual')
+                    ->label('Tarif / Harga Dasar')
                     ->helperText('Ketik angka tanpa koma/titik')
                     ->numeric()
                     ->default(0)
                     ->required(),
                 Forms\Components\TextInput::make('stock')
-                    ->label('Sisa Stok')
+                    ->label('Stok (Abaikan jika berupa Jasa)')
                     ->numeric()
                     ->default(0)
                     ->required(),
@@ -57,10 +57,10 @@ class ProductResource extends Resource
                     ->label('Kode')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nama Barang')
+                    ->label('Nama Layanan / Item')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Harga')
+                    ->label('Tarif / Harga')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('stock')

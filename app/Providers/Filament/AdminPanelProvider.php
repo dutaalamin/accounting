@@ -26,7 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('Akurasi ERP')
+            ->brandName('PT Cahaya Tiga Putri Mandiri')
             ->login()
             ->spa()
             ->colors([
@@ -38,7 +38,6 @@ class AdminPanelProvider extends PanelProvider
                 'danger' => \Filament\Support\Colors\Color::Rose,
             ])
             ->font('Inter')
-            ->darkMode(true, true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -46,7 +45,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // Default widgets removed as requested
+                \App\Filament\Widgets\AccountingStatsWidget::class,
+                \App\Filament\Widgets\IncomeExpenseChart::class,
+                \App\Filament\Widgets\AccountTypePieChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

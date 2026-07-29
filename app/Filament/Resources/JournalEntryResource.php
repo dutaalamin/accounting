@@ -49,6 +49,16 @@ class JournalEntryResource extends Resource
                         Forms\Components\Repeater::make('lines')
                             ->label('Daftar Rincian')
                             ->relationship()
+                            ->rule(function () {
+                                return function (string $attribute, $value, \Closure $fail) {
+                                    $totalDebit = collect($value)->sum('debit');
+                                    $totalCredit = collect($value)->sum('credit');
+                                    
+                                    if (round($totalDebit, 2) !== round($totalCredit, 2)) {
+                                        $fail('Transaksi gagal disimpan! Total Uang Masuk (Debit) dan Total Uang Keluar (Kredit) harus memiliki jumlah yang sama persis (Balance).');
+                                    }
+                                };
+                            })
                             ->schema([
                                 Forms\Components\Select::make('account_id')
                                     ->label('Pilih Akun / Dompet')
@@ -89,15 +99,37 @@ class JournalEntryResource extends Resource
                     ->label('Tanggal')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('total_amount')
+                    ->label('Total Transaksi')
+                    ->money('IDR')
+                    ->weight(\Filament\Support\Enums\FontWeight::Bold),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('date')
+                    ->form([
+                        Forms\Components\Grid::make(2)->schema([
+                            Forms\Components\DatePicker::make('date_from')
+                                ->label('Dari Tanggal')
+                                ->default(now()->startOfMonth()),
+                            Forms\Components\DatePicker::make('date_until')
+                                ->label('Sampai Tanggal')
+                                ->default(now()->endOfMonth()),
+                        ])
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                            );
+                    })
             ])
+            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

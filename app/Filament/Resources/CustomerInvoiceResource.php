@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class CustomerInvoiceResource extends Resource
 {
@@ -24,35 +25,90 @@ class CustomerInvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('customer_id')
-                    ->label('Pilih Pelanggan')
-                    ->relationship('customer', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('invoice_number')
-                    ->label('Nomor Faktur')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('invoice_date')
-                    ->label('Tanggal Faktur')
-                    ->required(),
-                Forms\Components\DatePicker::make('due_date')
-                    ->label('Jatuh Tempo (Opsional)'),
-                Forms\Components\TextInput::make('total_amount')
-                    ->label('Total Tagihan')
-                    ->numeric()
-                    ->default(0)
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->label('Status Pembayaran')
-                    ->options([
-                        'unpaid' => 'Belum Lunas (Unpaid)',
-                        'paid' => 'Lunas (Paid)',
-                    ])
-                    ->default('unpaid')
-                    ->required(),
-                Forms\Components\Textarea::make('notes')
-                    ->label('Catatan Tambahan')
-                    ->columnSpanFull(),
+                Forms\Components\Section::make('Informasi Utama')
+                    ->schema([
+                        Forms\Components\Select::make('customer_id')
+                            ->label('Pilih Pelanggan')
+                            ->relationship('customer', 'name')
+                            ->required(),
+                        Forms\Components\TextInput::make('invoice_number')
+                            ->label('Nomor Faktur')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\DatePicker::make('invoice_date')
+                            ->label('Tanggal Faktur')
+                            ->required(),
+                        Forms\Components\DatePicker::make('due_date')
+                            ->label('Jatuh Tempo (Opsional)'),
+                        Forms\Components\Select::make('status')
+                            ->label('Status Pembayaran')
+                            ->options([
+                                'unpaid' => 'Belum Lunas (Unpaid)',
+                                'paid' => 'Lunas (Paid)',
+                            ])
+                            ->default('unpaid')
+                            ->required(),
+                        Forms\Components\TextInput::make('tax_percentage')
+                            ->label('Pajak (PPN %)')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        Forms\Components\Textarea::make('notes')
+                            ->label('Catatan Tambahan')
+                            ->columnSpanFull(),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Rincian Barang')
+                    ->schema([
+                        Forms\Components\Repeater::make('lines')
+                            ->relationship()
+                            ->label('Daftar Barang yang Dijual')
+                            ->schema([
+                                Forms\Components\Select::make('product_id')
+                                    ->label('Produk')
+                                    ->relationship('product', 'name')
+                                    ->required()
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->reactive()
+                                    ->afterStateUpdated(function ($state, Forms\Set $set) {
+                                        if ($state) {
+                                            $product = \App\Models\Product::find($state);
+                                            if ($product) {
+                                                $set('unit_price', $product->price);
+                                            }
+                                        }
+                                    }),
+                                Forms\Components\TextInput::make('description')
+                                    ->label('Keterangan')
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('quantity')
+                                    ->label('Jumlah (Qty)')
+                                    ->numeric()
+                                    ->default(1)
+                                    ->required(),
+                                Forms\Components\TextInput::make('unit_price')
+                                    ->label('Harga Satuan')
+                                    ->numeric()
+                                    ->default(0)
+                                    ->required(),
+                            ])
+                            ->columns(4)
+                    ]),
+
+                Forms\Components\Section::make('Total Tagihan')
+                    ->description('Total dan Pajak akan dihitung secara otomatis setelah tagihan disimpan.')
+                    ->schema([
+                        Forms\Components\TextInput::make('tax_amount')
+                            ->label('Total Pajak (Dihitung Otomatis)')
+                            ->numeric()
+                            ->readOnly()
+                            ->default(0),
+                        Forms\Components\TextInput::make('total_amount')
+                            ->label('Total Akhir (Dihitung Otomatis)')
+                            ->numeric()
+                            ->readOnly()
+                            ->default(0),
+                    ])->columns(2)
             ]);
     }
 
@@ -67,9 +123,10 @@ class CustomerInvoiceResource extends Resource
                     ->label('Pelanggan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_amount')
-                    ->label('Total')
+                    ->label('Total Tagihan')
                     ->money('IDR')
-                    ->sortable(),
+                    ->sortable()
+                    ->weight(\Filament\Support\Enums\FontWeight::Bold),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->badge()
@@ -79,8 +136,47 @@ class CustomerInvoiceResource extends Resource
                         default => 'gray',
                     }),
             ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('Status Pembayaran')
+                    ->options([
+                        'paid' => 'Lunas (Paid)',
+                        'unpaid' => 'Belum Lunas (Unpaid)',
+                    ]),
+                Tables\Filters\Filter::make('invoice_date')
+                    ->form([
+                        Forms\Components\Grid::make(2)->schema([
+                            Forms\Components\DatePicker::make('date_from')
+                                ->label('Dari Tanggal')
+                                ->default(now()->startOfMonth()),
+                            Forms\Components\DatePicker::make('date_until')
+                                ->label('Sampai Tanggal')
+                                ->default(now()->endOfMonth()),
+                        ])
+                    ])
+                    ->columnSpan(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('invoice_date', '<=', $date),
+                            );
+                    })
+            ])
+            ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
+            ->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->label('Cetak PDF')
+                    ->color('success')
+                    ->icon('heroicon-o-printer')
+                    ->url(fn (CustomerInvoice $record) => route('customer-invoice.pdf', $record))
+                    ->openUrlInNewTab(),
             ]);
     }
 

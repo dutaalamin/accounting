@@ -13,7 +13,9 @@ class ListCustomerInvoices extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->size(\Filament\Support\Enums\ActionSize::ExtraLarge)
+                ->extraAttributes(['class' => 'px-6 py-3 text-xl font-bold']),
         ];
     }
 }

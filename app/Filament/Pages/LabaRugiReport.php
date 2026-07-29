@@ -5,9 +5,17 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use App\Models\Account;
 use App\Models\JournalEntryLine;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
+use Carbon\Carbon;
 
-class LabaRugiReport extends Page
+class LabaRugiReport extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
     protected static ?string $navigationGroup = 'Laporan Keuangan';
     protected static ?string $navigationLabel = 'Laba Rugi (Income Statement)';
@@ -19,27 +27,85 @@ class LabaRugiReport extends Page
     public float $totalExpense = 0;
     public float $netIncome = 0;
 
-    public function mount()
+    public ?array $data = [];
+
+    public function mount(): void
     {
-        // Hitung total Pemasukan (Revenue) = Saldo Kredit - Debit
+        $this->form->fill([
+            'start_date' => Carbon::now()->startOfMonth()->toDateString(),
+            'end_date' => Carbon::now()->endOfMonth()->toDateString(),
+        ]);
+        
+        $this->calculateTotals();
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Grid::make(2)->schema([
+                    DatePicker::make('start_date')
+                        ->label('Dari Tanggal')
+                        ->required()
+                        ->live()
+                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                    DatePicker::make('end_date')
+                        ->label('Sampai Tanggal')
+                        ->required()
+                        ->live()
+                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                ]),
+            ])
+            ->statePath('data');
+    }
+
+    public function calculateTotals(): void
+    {
+        $startDate = $this->data['start_date'] ?? Carbon::now()->startOfMonth()->toDateString();
+        $endDate = $this->data['end_date'] ?? Carbon::now()->endOfMonth()->toDateString();
+
+        // Revenue
         $revenueAccounts = Account::where('type', 'revenue')->pluck('id');
         
-        $revenueDebit = JournalEntryLine::whereIn('account_id', $revenueAccounts)->sum('debit');
-        $revenueCredit = JournalEntryLine::whereIn('account_id', $revenueAccounts)->sum('credit');
-        
-        // Akun Revenue bersaldo normal KREDIT
+        $revenueDebit = JournalEntryLine::whereIn('account_id', $revenueAccounts)
+            ->whereHas('journalEntry', fn($q) => $q->whereBetween('date', [$startDate, $endDate]))
+            ->sum('debit');
+            
+        $revenueCredit = JournalEntryLine::whereIn('account_id', $revenueAccounts)
+            ->whereHas('journalEntry', fn($q) => $q->whereBetween('date', [$startDate, $endDate]))
+            ->sum('credit');
+            
         $this->totalRevenue = $revenueCredit - $revenueDebit;
 
-        // Hitung total Pengeluaran (Expense) = Saldo Debit - Kredit
+        // Expense
         $expenseAccounts = Account::where('type', 'expense')->pluck('id');
         
-        $expenseDebit = JournalEntryLine::whereIn('account_id', $expenseAccounts)->sum('debit');
-        $expenseCredit = JournalEntryLine::whereIn('account_id', $expenseAccounts)->sum('credit');
+        $expenseDebit = JournalEntryLine::whereIn('account_id', $expenseAccounts)
+            ->whereHas('journalEntry', fn($q) => $q->whereBetween('date', [$startDate, $endDate]))
+            ->sum('debit');
+            
+        $expenseCredit = JournalEntryLine::whereIn('account_id', $expenseAccounts)
+            ->whereHas('journalEntry', fn($q) => $q->whereBetween('date', [$startDate, $endDate]))
+            ->sum('credit');
 
-        // Akun Expense bersaldo normal DEBIT
         $this->totalExpense = $expenseDebit - $expenseCredit;
 
-        // Laba Bersih = Pendapatan - Pengeluaran
+        // Net Income
         $this->netIncome = $this->totalRevenue - $this->totalExpense;
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            \Filament\Actions\Action::make('pdf')
+                ->label('Cetak PDF')
+                ->color('success')
+                ->icon('heroicon-o-printer')
+                ->url(fn (): string => route('laba-rugi.pdf', [
+                    'start_date' => $this->data['start_date'] ?? Carbon::now()->startOfMonth()->toDateString(),
+                    'end_date' => $this->data['end_date'] ?? Carbon::now()->endOfMonth()->toDateString(),
+                ]))
+                ->openUrlInNewTab(),
+        ];
     }
 }
