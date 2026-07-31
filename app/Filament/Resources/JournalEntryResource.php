@@ -70,13 +70,17 @@ class JournalEntryResource extends Resource
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('debit')
                                     ->label('Uang Masuk (Debit)')
-                                    ->helperText('Ketik angka tanpa koma/titik')
+                                    ->prefix('Rp')
+                                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                                    ->stripCharacters('.')
                                     ->numeric()
                                     ->default(0)
                                     ->required(),
                                 Forms\Components\TextInput::make('credit')
                                     ->label('Uang Keluar (Kredit)')
-                                    ->helperText('Ketik angka tanpa koma/titik')
+                                    ->prefix('Rp')
+                                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                                    ->stripCharacters('.')
                                     ->numeric()
                                     ->default(0)
                                     ->required(),

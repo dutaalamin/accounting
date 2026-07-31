@@ -51,7 +51,10 @@ class AccountResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('initial_balance')
                     ->label('Saldo Awal')
-                    ->helperText('Masukkan saldo awal (contoh: 10000000 tanpa titik)')
+                    ->helperText('Otomatis diberi format titik')
+                    ->prefix('Rp')
+                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                    ->stripCharacters('.')
                     ->numeric()
                     ->default(0)
                     ->required(),

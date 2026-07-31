@@ -34,7 +34,10 @@ class ProductResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
                     ->label('Tarif / Harga Dasar')
-                    ->helperText('Ketik angka tanpa koma/titik')
+                    ->helperText('Otomatis diberi format titik')
+                    ->prefix('Rp')
+                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
+                    ->stripCharacters('.')
                     ->numeric()
                     ->default(0)
                     ->required(),
