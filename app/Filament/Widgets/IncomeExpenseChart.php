@@ -8,6 +8,7 @@ class IncomeExpenseChart extends ChartWidget
 {
     protected static ?string $heading = 'Tren Pendapatan & Pengeluaran';
     protected static ?int $sort = 3;
+    protected static ?string $maxHeight = '250px';
 
     protected function getData(): array
     {

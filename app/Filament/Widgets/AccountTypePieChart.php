@@ -10,6 +10,7 @@ class AccountTypePieChart extends ChartWidget
 {
     protected static ?string $heading = 'Komposisi Pengeluaran Bulan Ini';
     protected static ?int $sort = 2; // Posisi di bawah Stat Cards
+    protected static ?string $maxHeight = '250px';
 
     protected function getData(): array
     {
@@ -74,5 +75,19 @@ class AccountTypePieChart extends ChartWidget
     protected function getType(): string
     {
         return 'doughnut';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'x' => [
+                    'display' => false,
+                ],
+                'y' => [
+                    'display' => false,
+                ],
+            ],
+        ];
     }
 }
