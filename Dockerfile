@@ -1,4 +1,4 @@
-﻿FROM php:8.2-apache
+FROM php:8.2-apache
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -26,6 +26,7 @@ COPY . .
 
 # Install PHP dependencies
 ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN mkdir -p database && touch database/database.sqlite
 RUN composer install --optimize-autoloader --no-dev
 
 # Set permissions
