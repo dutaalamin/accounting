@@ -27,7 +27,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('PT Cahaya Tiga Putri Mandiri')
-            ->login()
             ->spa()
             ->colors([
                 'primary' => \Filament\Support\Colors\Color::Zinc, // Premium Monochrome
@@ -62,7 +61,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 \App\Http\Middleware\AutoLoginMiddleware::class,
-                Authenticate::class,
             ])
             ->plugin(
                 \Saade\FilamentFullCalendar\FilamentFullCalendarPlugin::make()
