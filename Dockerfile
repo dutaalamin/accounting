@@ -26,7 +26,6 @@ COPY . .
 
 # Install PHP dependencies
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN mkdir -p database && touch database/database.sqlite
 RUN composer install --optimize-autoloader --no-dev
 
 # Set permissions
@@ -37,8 +36,8 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-avail
 RUN sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Listen to Railway PORT
-RUN echo 'Listen ' > /etc/apache2/ports.conf
-RUN sed -i 's/:80/:/g' /etc/apache2/sites-available/000-default.conf
+RUN echo 'Listen ${PORT}' > /etc/apache2/ports.conf
+RUN sed -i 's/:80/:${PORT}/g' /etc/apache2/sites-available/000-default.conf
 
 # Start script
 COPY docker-start.sh /usr/local/bin/docker-start.sh

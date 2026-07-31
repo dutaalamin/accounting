@@ -20,8 +20,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Auto-login for local development
-        if (\App\Models\User::first()) {
-            \Illuminate\Support\Facades\Auth::login(\App\Models\User::first());
+        if (! $this->app->runningInConsole() && \Illuminate\Support\Facades\Schema::hasTable('users')) {
+            if (\App\Models\User::first()) {
+                \Illuminate\Support\Facades\Auth::login(\App\Models\User::first());
+            }
         }
     }
 }
