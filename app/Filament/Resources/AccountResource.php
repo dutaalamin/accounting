@@ -49,6 +49,12 @@ class AccountResource extends Resource
                         'expense' => 'Expense (Pengeluaran)',
                     ])
                     ->required(),
+                Forms\Components\TextInput::make('initial_balance')
+                    ->label('Saldo Awal')
+                    ->helperText('Masukkan saldo awal (contoh: 10000000 tanpa titik)')
+                    ->numeric()
+                    ->default(0)
+                    ->required(),
             ]);
     }
 
