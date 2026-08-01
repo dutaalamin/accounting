@@ -37,6 +37,8 @@ class JournalEntryResource extends Resource
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('date')
                             ->label('Tanggal Transaksi')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
                             ->default(now())
                             ->required(),
                         Forms\Components\Textarea::make('description')
@@ -111,9 +113,13 @@ class JournalEntryResource extends Resource
                         Forms\Components\Grid::make(2)->schema([
                             Forms\Components\DatePicker::make('date_from')
                                 ->label('Dari Tanggal')
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
                                 ->default(now()->startOfMonth()),
                             Forms\Components\DatePicker::make('date_until')
                                 ->label('Sampai Tanggal')
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
                                 ->default(now()->endOfMonth()),
                         ])
                     ])

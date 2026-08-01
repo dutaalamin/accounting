@@ -38,9 +38,13 @@ class SupplierInvoiceResource extends Resource
                         Forms\Components\DatePicker::make('invoice_date')
                             ->label('Tanggal Faktur')
                             ->default(now())
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
                             ->required(),
                         Forms\Components\DatePicker::make('due_date')
                             ->label('Jatuh Tempo (Opsional)')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
                             ->default(now()),
                         Forms\Components\Select::make('status')
                             ->label('Status Pembayaran')
@@ -151,9 +155,13 @@ class SupplierInvoiceResource extends Resource
                         Forms\Components\Grid::make(2)->schema([
                             Forms\Components\DatePicker::make('date_from')
                                 ->label('Dari Tanggal')
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
                                 ->default(now()->startOfMonth()),
                             Forms\Components\DatePicker::make('date_until')
                                 ->label('Sampai Tanggal')
+                                ->native(false)
+                                ->displayFormat('d/m/Y')
                                 ->default(now()->endOfMonth()),
                         ])
                     ])
