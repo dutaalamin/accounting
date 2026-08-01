@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Rounded Background -->
+  <rect width="32" height="32" rx="8" fill="#111827"/>
+  <!-- Book SVG Path -->
+  <path d="M16 8.5c-2.5-2.5-6-2.5-9-1.5v16c3-1 6.5-1 9 1.5m0-16c2.5-2.5 6-2.5 9-1.5v16c-3-1-6.5-1-9 1.5m0-16v16" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Mini Chart / Page Lines -->
+  <path d="M10 11h3M10 14h3M19 11h2.5M19 14h2.5" stroke="#f3f4f6" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

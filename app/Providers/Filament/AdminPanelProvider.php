@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => \Filament\Support\Colors\Color::Amber,
                 'danger' => \Filament\Support\Colors\Color::Rose,
             ])
+            ->favicon(asset('favicon.svg'))
             ->maxContentWidth(\Filament\Support\Enums\MaxWidth::Full)
             ->font('Inter')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
