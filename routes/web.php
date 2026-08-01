@@ -6,6 +6,11 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
+Route::get('/clear-cache', function () {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return 'Cache cleared! <a href="/admin">Go to Admin</a>';
+});
+
 Route::get('/customer-invoice/{customerInvoice}/pdf', [\App\Http\Controllers\PdfController::class, 'customerInvoice'])->name('customer-invoice.pdf');
 Route::get('/supplier-invoice/{supplierInvoice}/pdf', [\App\Http\Controllers\PdfController::class, 'supplierInvoice'])->name('supplier-invoice.pdf');
 Route::get('/laba-rugi/pdf', [\App\Http\Controllers\PdfController::class, 'labaRugi'])->name('laba-rugi.pdf');
