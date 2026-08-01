@@ -51,7 +51,7 @@ class SupplierInvoiceResource extends Resource
                         Forms\Components\TextInput::make('tax_percentage')
                             ->label('Pajak (PPN %)')
                             ->numeric()
-                            ->default(0)
+                            ->placeholder('0')
                             ->required(),
                         Forms\Components\Textarea::make('notes')
                             ->label('Catatan Tambahan')
@@ -92,7 +92,7 @@ class SupplierInvoiceResource extends Resource
                                     ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
                                     ->stripCharacters('.')
                                     ->numeric()
-                                    ->default(0)
+                                    ->placeholder('0')
                                     ->required(),
                             ])
                             ->columns(4)

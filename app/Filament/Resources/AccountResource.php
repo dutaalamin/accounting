@@ -56,7 +56,7 @@ class AccountResource extends Resource
                     ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
                     ->stripCharacters('.')
                     ->numeric()
-                    ->default(0)
+                    ->placeholder('0')
                     ->required(),
             ]);
     }

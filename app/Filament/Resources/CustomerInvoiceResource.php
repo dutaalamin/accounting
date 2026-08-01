@@ -51,7 +51,7 @@ class CustomerInvoiceResource extends Resource
                         Forms\Components\TextInput::make('tax_percentage')
                             ->label('Pajak (PPN %)')
                             ->numeric()
-                            ->default(0)
+                            ->placeholder('0')
                             ->required(),
                         Forms\Components\Textarea::make('notes')
                             ->label('Catatan Tambahan')

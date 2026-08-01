@@ -39,12 +39,12 @@ class ProductResource extends Resource
                     ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
                     ->stripCharacters('.')
                     ->numeric()
-                    ->default(0)
+                    ->placeholder('0')
                     ->required(),
                 Forms\Components\TextInput::make('stock')
                     ->label('Stok (Abaikan jika berupa Jasa)')
                     ->numeric()
-                    ->default(0)
+                    ->placeholder('0')
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label('Keterangan Singkat')

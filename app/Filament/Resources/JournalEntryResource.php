@@ -74,7 +74,7 @@ class JournalEntryResource extends Resource
                                     ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
                                     ->stripCharacters('.')
                                     ->numeric()
-                                    ->default(0)
+                                    ->placeholder('0')
                                     ->required(),
                                 Forms\Components\TextInput::make('credit')
                                     ->label('Uang Keluar (Kredit)')
@@ -82,7 +82,7 @@ class JournalEntryResource extends Resource
                                     ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
                                     ->stripCharacters('.')
                                     ->numeric()
-                                    ->default(0)
+                                    ->placeholder('0')
                                     ->required(),
                             ])
                             ->columns(4)
