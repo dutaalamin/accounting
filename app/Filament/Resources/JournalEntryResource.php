@@ -37,6 +37,7 @@ class JournalEntryResource extends Resource
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('date')
                             ->label('Tanggal Transaksi')
+                            ->default(now())
                             ->required(),
                         Forms\Components\Textarea::make('description')
                             ->label('Keterangan / Deskripsi Umum')

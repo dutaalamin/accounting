@@ -37,9 +37,11 @@ class SupplierInvoiceResource extends Resource
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('invoice_date')
                             ->label('Tanggal Faktur')
+                            ->default(now())
                             ->required(),
                         Forms\Components\DatePicker::make('due_date')
-                            ->label('Jatuh Tempo (Opsional)'),
+                            ->label('Jatuh Tempo (Opsional)')
+                            ->default(now()),
                         Forms\Components\Select::make('status')
                             ->label('Status Pembayaran')
                             ->options([
