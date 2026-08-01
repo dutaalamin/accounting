@@ -30,6 +30,8 @@ class CustomerInvoiceResource extends Resource
                         Forms\Components\Select::make('customer_id')
                             ->label('Pilih Pelanggan')
                             ->relationship('customer', 'name')
+                            ->searchable()
+                            ->preload()
                             ->required(),
                         Forms\Components\TextInput::make('invoice_number')
                             ->label('Nomor Faktur')
@@ -74,6 +76,8 @@ class CustomerInvoiceResource extends Resource
                                     ->label('Produk')
                                     ->relationship('product', 'name')
                                     ->required()
+                                    ->searchable()
+                                    ->preload()
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, Forms\Set $set) {

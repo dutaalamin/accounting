@@ -28,8 +28,10 @@ class SupplierInvoiceResource extends Resource
                 Forms\Components\Section::make('Informasi Utama')
                     ->schema([
                         Forms\Components\Select::make('vendor_id')
-                            ->label('Pilih Pemasok')
+                            ->label('Pilih Pemasok (Vendor)')
                             ->relationship('vendor', 'name')
+                            ->searchable()
+                            ->preload()
                             ->required(),
                         Forms\Components\TextInput::make('invoice_number')
                             ->label('Nomor Faktur Pemasok')
@@ -71,9 +73,11 @@ class SupplierInvoiceResource extends Resource
                             ->label('Daftar Barang yang Dibeli')
                             ->schema([
                                 Forms\Components\Select::make('product_id')
-                                    ->label('Produk')
+                                    ->label('Pilih Produk')
                                     ->relationship('product', 'name')
                                     ->required()
+                                    ->searchable()
+                                    ->preload()
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, Forms\Set $set) {
