@@ -91,9 +91,8 @@ class CustomerInvoiceResource extends Resource
                                 Forms\Components\TextInput::make('unit_price')
                                     ->label('Harga Satuan')
                                     ->prefix('Rp')
-                                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
-                                    ->stripCharacters('.')
                                     ->numeric()
+                                    ->placeholder('0')
                                     ->required()
                                     ->live(onBlur: true),
                             ])

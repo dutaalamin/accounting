@@ -53,8 +53,6 @@ class AccountResource extends Resource
                     ->label('Saldo Awal')
                     ->helperText('Otomatis diberi format titik')
                     ->prefix('Rp')
-                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
-                    ->stripCharacters('.')
                     ->numeric()
                     ->placeholder('0')
                     ->required(),

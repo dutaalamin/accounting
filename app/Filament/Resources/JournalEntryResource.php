@@ -72,16 +72,12 @@ class JournalEntryResource extends Resource
                                 Forms\Components\TextInput::make('debit')
                                     ->label('Uang Masuk (Debit)')
                                     ->prefix('Rp')
-                                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
-                                    ->stripCharacters('.')
                                     ->numeric()
                                     ->placeholder('0')
                                     ->required(),
                                 Forms\Components\TextInput::make('credit')
                                     ->label('Uang Keluar (Kredit)')
                                     ->prefix('Rp')
-                                    ->mask(\Filament\Support\RawJs::make('$money($input, \',\', \'.\', 0)'))
-                                    ->stripCharacters('.')
                                     ->numeric()
                                     ->placeholder('0')
                                     ->required(),

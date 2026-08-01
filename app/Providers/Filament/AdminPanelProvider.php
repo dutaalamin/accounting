@@ -29,13 +29,15 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('PT Cahaya Tiga Putri Mandiri')
             ->spa()
             ->colors([
-                'primary' => \Filament\Support\Colors\Color::Zinc, // Premium Monochrome
-                'gray' => \Filament\Support\Colors\Color::Zinc, // True black/gray base, no blue tint
+                'primary' => \Filament\Support\Colors\Color::hex('#111827'), // Hitam elegan (Premium Black)
+                'gray' => \Filament\Support\Colors\Color::Zinc,
                 'info' => \Filament\Support\Colors\Color::Sky,
                 'success' => \Filament\Support\Colors\Color::Emerald,
                 'warning' => \Filament\Support\Colors\Color::Amber,
                 'danger' => \Filament\Support\Colors\Color::Rose,
             ])
+            ->maxContentWidth(\Filament\Support\Enums\MaxWidth::Full)
+            ->sidebarFullyCollapsibleOnDesktop()
             ->font('Inter')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
