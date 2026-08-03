@@ -14,7 +14,7 @@ class VendorResource extends Resource
 {
     protected static ?string $model = Vendor::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
     protected static ?string $navigationGroup = 'Hutang Usaha (AP)';
     protected static ?string $modelLabel = 'Pemasok / Vendor';
     protected static ?string $pluralModelLabel = 'Daftar Pemasok';
