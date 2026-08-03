@@ -16,10 +16,10 @@ class CustomerInvoiceResource extends Resource
     protected static ?string $model = CustomerInvoice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'Piutang Usaha (AR)';
+    protected static ?string $navigationGroup = 'Piutang Usaha';
     protected static ?string $modelLabel = 'Tagihan Pelanggan';
-    protected static ?string $pluralModelLabel = 'Tagihan Pelanggan (AR)';
-    protected static ?string $navigationLabel = 'Tagihan Pelanggan (AR)';
+    protected static ?string $pluralModelLabel = 'Tagihan Pelanggan';
+    protected static ?string $navigationLabel = 'Tagihan Pelanggan';
 
     public static function form(Form $form): Form
     {

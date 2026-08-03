@@ -31,13 +31,13 @@ class AccountingStatsWidget extends BaseWidget
                 ->chart([15, 12, 18, 14, 22, 25, $totalKas > 0 ? 28 : 10])
                 ->color('success'),
             
-            Stat::make('Total Piutang Berjalan (AR)', 'Rp ' . number_format($totalAR, 0, ',', '.'))
+            Stat::make('Total Piutang Berjalan', 'Rp ' . number_format($totalAR, 0, ',', '.'))
                 ->description('Invoice pelanggan belum lunas')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([10, 15, 8, 12, 19, 14, $totalAR > 0 ? 25 : 5])
                 ->color('info'),
                 
-            Stat::make('Total Utang Dagang (AP)', 'Rp ' . number_format($totalAP, 0, ',', '.'))
+            Stat::make('Total Utang Dagang', 'Rp ' . number_format($totalAP, 0, ',', '.'))
                 ->description('Invoice vendor belum dibayar')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->chart([12, 10, 8, 9, 7, 5, $totalAP > 0 ? 15 : 2])

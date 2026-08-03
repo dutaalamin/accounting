@@ -44,9 +44,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->navigationGroups([
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Piutang Usaha (AR)'),
+                     ->label('Piutang Usaha'),
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Hutang Usaha (AP)'),
+                     ->label('Hutang Usaha'),
                 \Filament\Navigation\NavigationGroup::make()
                      ->label('Buku Besar'),
                 \Filament\Navigation\NavigationGroup::make()
