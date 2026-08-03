@@ -41,6 +41,18 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->navigationGroups([
+                \Filament\Navigation\NavigationGroup::make()
+                     ->label('Piutang Usaha (AR)'),
+                \Filament\Navigation\NavigationGroup::make()
+                     ->label('Hutang Usaha (AP)'),
+                \Filament\Navigation\NavigationGroup::make()
+                     ->label('Buku Besar'),
+                \Filament\Navigation\NavigationGroup::make()
+                     ->label('Master Data'),
+                \Filament\Navigation\NavigationGroup::make()
+                     ->label('Laporan Keuangan'),
+            ])
             ->pages([
                 Pages\Dashboard::class,
             ])
