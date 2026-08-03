@@ -23,15 +23,15 @@ class AccountTypePieChart extends ChartWidget
         $labels = [];
         $data = [];
         $colors = [
-            '#ef4444', // red
+            '#6366f1', // indigo
+            '#3b82f6', // blue
+            '#10b981', // emerald
+            '#ec4899', // pink
             '#f59e0b', // amber
             '#8b5cf6', // violet
-            '#ec4899', // pink
-            '#06b6d4', // cyan
-            '#84cc16', // lime
             '#f97316', // orange
-            '#6366f1', // indigo
             '#14b8a6', // teal
+            '#06b6d4', // cyan
             '#e11d48', // rose
         ];
 
@@ -57,7 +57,7 @@ class AccountTypePieChart extends ChartWidget
         if (empty($data)) {
             $labels = ['Belum ada pengeluaran'];
             $data = [1];
-            $colors = ['#d1d5db']; // gray
+            $colors = ['#e4e4e7']; // zinc 200
         }
 
         return [
@@ -80,6 +80,12 @@ class AccountTypePieChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'plugins' => [
+                'legend' => [
+                    'display' => true,
+                    'position' => 'bottom',
+                ],
+            ],
             'scales' => [
                 'x' => [
                     'display' => false,

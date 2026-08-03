@@ -51,14 +51,18 @@ class IncomeExpenseChart extends ChartWidget
                 [
                     'label' => 'Pendapatan (Revenue)',
                     'data' => $revenues,
-                    'borderColor' => '#10b981',
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.2)',
+                    'borderColor' => '#6366f1', // Indigo
+                    'backgroundColor' => 'rgba(99, 102, 241, 0.1)',
+                    'fill' => 'start',
+                    'tension' => 0.4,
                 ],
                 [
                     'label' => 'Pengeluaran (Expense)',
                     'data' => $expenses,
-                    'borderColor' => '#f59e0b',
-                    'backgroundColor' => 'rgba(245, 158, 11, 0.2)',
+                    'borderColor' => '#ec4899', // Pink
+                    'backgroundColor' => 'rgba(236, 72, 153, 0.1)',
+                    'fill' => 'start',
+                    'tension' => 0.4,
                 ],
             ],
             'labels' => $labels,
