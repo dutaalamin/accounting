@@ -26,7 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('Accounting PT Cahaya Tiga Putri Mandiri')
+            ->brandName('Accounting')
             ->spa()
             ->colors([
                 'primary' => \Filament\Support\Colors\Color::Slate, // Hitam/Gelap elegan
