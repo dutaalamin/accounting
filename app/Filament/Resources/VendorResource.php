@@ -61,6 +61,7 @@ class VendorResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ]);
     }
 
@@ -73,3 +74,4 @@ class VendorResource extends Resource
         ];
     }
 }
+

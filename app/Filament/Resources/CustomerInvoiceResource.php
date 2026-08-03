@@ -187,6 +187,7 @@ class CustomerInvoiceResource extends Resource
             ->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('pdf')
                     ->label('Cetak PDF')
                     ->color('success')
@@ -205,3 +206,4 @@ class CustomerInvoiceResource extends Resource
         ];
     }
 }
+
