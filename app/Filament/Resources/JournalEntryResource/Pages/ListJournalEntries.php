@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Filament\Resources\JournalEntryResource\Pages;
 
@@ -19,3 +19,4 @@ class ListJournalEntries extends ListRecords
         ];
     }
 }
+

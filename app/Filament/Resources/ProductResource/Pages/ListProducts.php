@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Filament\Resources\ProductResource\Pages;
 
@@ -19,3 +19,4 @@ class ListProducts extends ListRecords
         ];
     }
 }
+
