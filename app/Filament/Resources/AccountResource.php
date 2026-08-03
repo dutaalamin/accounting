@@ -29,7 +29,7 @@ class AccountResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('code')
                     ->label('Kode Akun')
-                    ->helperText('Contoh: 101, 102. Gunakan angka.')
+                    ->helperText('Contekan: Awalan 1 (Harta/Kas), 2 (Hutang), 3 (Modal), 4 (Pendapatan), 5 (Pengeluaran).')
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
