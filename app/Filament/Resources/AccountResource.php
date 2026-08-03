@@ -106,7 +106,6 @@ class AccountResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->hidden(fn (Account $record) => $record->journalEntryLines()->exists()),
             ])
