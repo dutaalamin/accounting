@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
-            SampleDataSeeder::class,
+            COASeeder::class,
+            // Uncomment line di bawah jika ingin memasukkan data dummy transaksi (Invoice, Produk, dll)
+            // SampleDataSeeder::class,
         ]);
     }
 }
