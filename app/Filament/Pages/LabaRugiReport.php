@@ -48,15 +48,38 @@ class LabaRugiReport extends Page implements HasForms
                         ->label('Dari Tanggal')
                         ->required()
                         ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->afterStateUpdated(function () {
+                            $this->validateDates();
+                            $this->calculateTotals();
+                        }),
                     DatePicker::make('end_date')
                         ->label('Sampai Tanggal')
                         ->required()
                         ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->afterStateUpdated(function () {
+                            $this->validateDates();
+                            $this->calculateTotals();
+                        }),
                 ]),
             ])
             ->statePath('data');
+    }
+
+    protected function validateDates(): void
+    {
+        $start = $this->data['start_date'] ?? null;
+        $end = $this->data['end_date'] ?? null;
+
+        if ($start && $end && $start > $end) {
+            \Filament\Notifications\Notification::make()
+                ->title('Rentang tanggal tidak valid')
+                ->body('Tanggal mulai tidak boleh setelah tanggal akhir.')
+                ->danger()
+                ->send();
+            // Tukar agar perhitungan tidak negatif
+            $this->data['start_date'] = $end;
+            $this->data['end_date'] = $start;
+        }
     }
 
     public function calculateTotals(): void

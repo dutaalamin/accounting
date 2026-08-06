@@ -12,15 +12,16 @@ class AccountingStatsWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        // 1. Total Kas & Bank (Asset) = Saldo Debit - Kredit
-        $assetAccounts = Account::where('type', 'asset')->pluck('id');
-        $debit = \App\Models\JournalEntryLine::whereIn('account_id', $assetAccounts)->sum('debit');
-        $credit = \App\Models\JournalEntryLine::whereIn('account_id', $assetAccounts)->sum('credit');
-        $totalKas = $debit - $credit;
-        
+        // 1. Total Kas & Bank (Asset) = initial_balance + Debit - Kredit
+        $assetAccounts = Account::where('type', 'asset')->get();
+        $totalKas = 0;
+        foreach ($assetAccounts as $account) {
+            $totalKas += $account->current_balance; // pakai accessor (initial_balance + debit - credit)
+        }
+
         // 2. Total Piutang Berjalan (AR) -> Tagihan belum lunas
         $totalAR = \App\Models\CustomerInvoice::where('status', 'unpaid')->sum('total_amount');
-        
+
         // 3. Total Utang Dagang (AP) -> Tagihan vendor belum dibayar
         $totalAP = \App\Models\SupplierInvoice::where('status', 'unpaid')->sum('total_amount');
 

@@ -107,6 +107,28 @@ class JournalEntryResource extends Resource
                     ->label('Total Transaksi')
                     ->money('IDR')
                     ->weight(\Filament\Support\Enums\FontWeight::Bold),
+                Tables\Columns\TextColumn::make('source_type')
+                    ->label('Sumber')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'manual' => 'Manual',
+                        'customer_invoice' => 'Invoice Pelanggan',
+                        'supplier_invoice' => 'Invoice Pemasok',
+                        default => $state,
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'manual' => 'gray',
+                        'customer_invoice' => 'info',
+                        'supplier_invoice' => 'warning',
+                        default => 'gray',
+                    }),
+                Tables\Columns\IconColumn::make('is_posted')
+                    ->label('Status')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-lock-closed')
+                    ->falseIcon('heroicon-o-pencil-square')
+                    ->trueColor('success')
+                    ->falseColor('warning'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('date')
@@ -139,11 +161,45 @@ class JournalEntryResource extends Resource
             ->filtersLayout(\Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->filtersFormColumns(2)
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn (JournalEntry $record): bool => $record->is_posted),
+                Tables\Actions\DeleteAction::make()
+                    ->hidden(fn (JournalEntry $record): bool => $record->is_posted),
+                Tables\Actions\Action::make('post')
+                    ->label('Posting (Kunci)')
+                    ->icon('heroicon-o-lock-closed')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Kunci Transaksi?')
+                    ->modalDescription('Setelah diposting, transaksi ini tidak dapat diedit atau dihapus lagi.')
+                    ->visible(fn (JournalEntry $record): bool => ! $record->is_posted)
+                    ->action(function (JournalEntry $record) {
+                        $record->post();
+                        \Filament\Notifications\Notification::make()
+                            ->title('Transaksi berhasil diposting & dikunci.')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
-                // 
+                Tables\Actions\BulkAction::make('postBulk')
+                    ->label('Posting Terpilih')
+                    ->icon('heroicon-o-lock-closed')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->action(function (\Illuminate\Support\Collection $records) {
+                        $count = 0;
+                        foreach ($records as $record) {
+                            if (! $record->is_posted) {
+                                $record->post();
+                                $count++;
+                            }
+                        }
+                        \Filament\Notifications\Notification::make()
+                            ->title($count . ' transaksi berhasil diposting.')
+                            ->success()
+                            ->send();
+                    }),
             ]);
     }
 

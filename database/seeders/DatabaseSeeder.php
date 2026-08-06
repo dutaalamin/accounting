@@ -13,11 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Admin default. Ganti password setelah login pertama!
+        // Password diambil dari env agar tidak hardcoded di repo.
+        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', 'ChangeMe123!');
+
         \App\Models\User::updateOrCreate(
             ['email' => 'admin@admin.com'],
             [
                 'name' => 'Administrator',
-                'password' => bcrypt('admin123'),
+                'password' => bcrypt($adminPassword),
             ]
         );
 

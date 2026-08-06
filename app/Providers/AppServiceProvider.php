@@ -22,12 +22,5 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
-
-        // Auto-login for local development
-        if (! $this->app->runningInConsole() && \Illuminate\Support\Facades\Schema::hasTable('users')) {
-            if (\App\Models\User::first()) {
-                \Illuminate\Support\Facades\Auth::login(\App\Models\User::first());
-            }
-        }
     }
 }

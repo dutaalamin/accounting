@@ -17,9 +17,11 @@ class COASeeder extends Seeder
         Account::firstOrCreate(['code' => '112', 'name' => 'Bank BCA (Pusat)'], ['type' => 'asset']);
         Account::firstOrCreate(['code' => '113', 'name' => 'Piutang Usaha'], ['type' => 'asset']);
         Account::firstOrCreate(['code' => '114', 'name' => 'Uang Muka Pembelian'], ['type' => 'asset']);
+        Account::firstOrCreate(['code' => '115', 'name' => 'PPN Masukan'], ['type' => 'asset']);
 
         // Kewajiban / Utang (Liability)
         Account::firstOrCreate(['code' => '211', 'name' => 'Utang Usaha'], ['type' => 'liability']);
+        Account::firstOrCreate(['code' => '212', 'name' => 'PPN Keluaran'], ['type' => 'liability']);
 
         // Ekuitas / Modal (Equity)
         Account::firstOrCreate(['code' => '311', 'name' => 'Modal Pemilik'], ['type' => 'equity']);

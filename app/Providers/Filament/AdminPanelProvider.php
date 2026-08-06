@@ -75,7 +75,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                \App\Http\Middleware\AutoLoginMiddleware::class,
+                Authenticate::class,
             ])
             ->plugin(
                 \Saade\FilamentFullCalendar\FilamentFullCalendarPlugin::make()

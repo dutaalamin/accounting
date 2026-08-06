@@ -19,9 +19,12 @@ class IncomeExpenseChart extends ChartWidget
         $revAccounts = \App\Models\Account::where('type', 'revenue')->pluck('id');
         $expAccounts = \App\Models\Account::where('type', 'expense')->pluck('id');
 
+        $year = (int) ($this->filterFormData['year'] ?? now()->year);
+
         for ($i = 1; $i <= 12; $i++) {
-            $startDate = now()->setMonth($i)->startOfMonth()->format('Y-m-d');
-            $endDate = now()->setMonth($i)->endOfMonth()->format('Y-m-d');
+            // Gunakan Carbon::create untuk menghindari bug mutasi now()->setMonth()
+            $startDate = \Carbon\Carbon::createFromDate($year, $i, 1)->startOfMonth()->format('Y-m-d');
+            $endDate = \Carbon\Carbon::createFromDate($year, $i, 1)->endOfMonth()->format('Y-m-d');
 
             // Hitung total Pendapatan (Kredit - Debit)
             $revDebit = \App\Models\JournalEntryLine::whereIn('account_id', $revAccounts)
@@ -72,5 +75,18 @@ class IncomeExpenseChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        $currentYear = now()->year;
+        $years = range($currentYear - 4, $currentYear + 1);
+
+        return [
+            'year' => \Filament\Forms\Components\Select::make('year')
+                ->label('Tahun')
+                ->options(array_combine($years, $years))
+                ->default($currentYear),
+        ];
     }
 }
