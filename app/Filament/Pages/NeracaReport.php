@@ -50,11 +50,17 @@ class NeracaReport extends Page implements HasForms
                         ->native(false)
                         ->displayFormat('d/m/Y')
                         ->default(now())
-                        ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->live(),
                 ]),
             ])
             ->statePath('data');
+    }
+
+    public function updated($propertyName): void
+    {
+        if (str_starts_with($propertyName, 'data.')) {
+            $this->calculateTotals();
+        }
     }
 
     /**

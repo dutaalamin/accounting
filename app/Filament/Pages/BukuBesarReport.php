@@ -52,25 +52,29 @@ class BukuBesarReport extends Page implements HasForms
                         ->searchable()
                         ->preload()
                         ->required()
-                        ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->live(),
                     DatePicker::make('start_date')
                         ->label('Dari Tanggal')
                         ->native(false)
                         ->displayFormat('d/m/Y')
                         ->default(now()->startOfMonth())
-                        ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->live(),
                     DatePicker::make('end_date')
                         ->label('Sampai Tanggal')
                         ->native(false)
                         ->displayFormat('d/m/Y')
                         ->default(now()->endOfMonth())
-                        ->live()
-                        ->afterStateUpdated(fn () => $this->calculateTotals()),
+                        ->live(),
                 ]),
             ])
             ->statePath('data');
+    }
+
+    public function updated($propertyName): void
+    {
+        if (str_starts_with($propertyName, 'data.')) {
+            $this->calculateTotals();
+        }
     }
 
     public function calculateTotals(): void

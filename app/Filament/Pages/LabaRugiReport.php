@@ -47,22 +47,22 @@ class LabaRugiReport extends Page implements HasForms
                     DatePicker::make('start_date')
                         ->label('Dari Tanggal')
                         ->required()
-                        ->live()
-                        ->afterStateUpdated(function () {
-                            $this->validateDates();
-                            $this->calculateTotals();
-                        }),
+                        ->live(),
                     DatePicker::make('end_date')
                         ->label('Sampai Tanggal')
                         ->required()
-                        ->live()
-                        ->afterStateUpdated(function () {
-                            $this->validateDates();
-                            $this->calculateTotals();
-                        }),
+                        ->live(),
                 ]),
             ])
             ->statePath('data');
+    }
+
+    public function updated($propertyName): void
+    {
+        if (str_starts_with($propertyName, 'data.')) {
+            $this->validateDates();
+            $this->calculateTotals();
+        }
     }
 
     protected function validateDates(): void
