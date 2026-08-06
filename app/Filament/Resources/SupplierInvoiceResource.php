@@ -79,7 +79,6 @@ class SupplierInvoiceResource extends Resource
                                     ->relationship('product', 'name')
                                     ->required()
                                     ->searchable()
-                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, Forms\Set $set) {
                                         if ($state) {
