@@ -67,8 +67,7 @@ class JournalEntryResource extends Resource
                                     ->label('Pilih Akun / Dompet')
                                     ->relationship('account', 'name')
                                     ->required()
-                                    ->searchable()
-                                    ->preload(),
+                                    ->searchable(),
                                 Forms\Components\TextInput::make('description')
                                     ->label('Keterangan Detail')
                                     ->maxLength(255),
