@@ -10,6 +10,8 @@ class IncomeExpenseChart extends ChartWidget
     protected static ?int $sort = 3;
     protected static ?string $maxHeight = '250px';
 
+    public ?string $filter = '2026';
+
     protected function getData(): array
     {
         $revenues = [];
@@ -19,7 +21,7 @@ class IncomeExpenseChart extends ChartWidget
         $revAccounts = \App\Models\Account::where('type', 'revenue')->pluck('id');
         $expAccounts = \App\Models\Account::where('type', 'expense')->pluck('id');
 
-        $year = (int) ($this->filterFormData['year'] ?? now()->year);
+        $year = (int) ($this->filter ?? now()->year);
 
         for ($i = 1; $i <= 12; $i++) {
             // Gunakan Carbon::create untuk menghindari bug mutasi now()->setMonth()
@@ -82,11 +84,6 @@ class IncomeExpenseChart extends ChartWidget
         $currentYear = now()->year;
         $years = range($currentYear - 4, $currentYear + 1);
 
-        return [
-            'year' => \Filament\Forms\Components\Select::make('year')
-                ->label('Tahun')
-                ->options(array_combine($years, $years))
-                ->default($currentYear),
-        ];
+        return array_combine($years, $years);
     }
 }
