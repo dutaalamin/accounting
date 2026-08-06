@@ -75,11 +75,10 @@ class CustomerInvoiceResource extends Resource
                             ->label('Daftar Barang yang Dijual')
                             ->schema([
                                 Forms\Components\Select::make('product_id')
-                                    ->label('Produk')
+                                    ->label('Pilih Produk')
                                     ->relationship('product', 'name')
                                     ->required()
                                     ->searchable()
-                                    ->preload()
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, Forms\Set $set) {
