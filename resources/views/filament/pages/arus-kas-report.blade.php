@@ -61,6 +61,7 @@
                     <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">Rp {{ number_format($closingCash, 0, ',', '.') }}</p>
                 </div>
             </div>
+        </div>
     </div>
 
     {{-- Net Change Banner --}}
