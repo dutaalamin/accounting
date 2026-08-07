@@ -66,7 +66,7 @@
                     {{-- Opening Balance Row --}}
                     <tr class="bg-gray-50 dark:bg-gray-800/30">
                         <td colspan="3" class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">
-                            Saldo Awal (per {{ $data['start_date'] ?? '' }})
+                            Saldo Awal (per {{ isset($data['start_date']) ? \Carbon\Carbon::parse($data['start_date'])->format('d/m/Y') : '' }})
                         </td>
                         <td colspan="2" class="px-4 py-3"></td>
                         <td class="px-4 py-3 text-right font-bold text-gray-700 dark:text-gray-200">
@@ -118,7 +118,7 @@
                     {{-- Closing Balance Row --}}
                     <tr class="bg-emerald-50 dark:bg-emerald-900/20 font-bold">
                         <td colspan="5" class="px-4 py-3 text-emerald-700 dark:text-emerald-300">
-                            Saldo Akhir (per {{ $data['end_date'] ?? '' }})
+                            Saldo Akhir (per {{ isset($data['end_date']) ? \Carbon\Carbon::parse($data['end_date'])->format('d/m/Y') : '' }})
                         </td>
                         <td class="px-4 py-3 text-right text-emerald-700 dark:text-emerald-300">
                             Rp {{ number_format($running, 0, ',', '.') }}
