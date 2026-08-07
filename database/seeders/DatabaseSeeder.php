@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // Admin default. Ganti password setelah login pertama!
         // Password diambil dari env agar tidak hardcoded di repo.
-        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', 'ChangeMe123!');
+        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', 'admin123');
 
         \App\Models\User::updateOrCreate(
             ['email' => 'admin@admin.com'],
