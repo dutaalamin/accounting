@@ -38,21 +38,21 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->favicon(asset('favicon.svg'))
             ->maxContentWidth(\Filament\Support\Enums\MaxWidth::Full)
-            ->font('Geist')
+            ->font('Poppins')
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->navigationGroups([
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Piutang Usaha'),
+                    ->label('Piutang Usaha'),
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Hutang Usaha'),
+                    ->label('Hutang Usaha'),
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Buku Besar'),
+                    ->label('Buku Besar'),
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Master Data'),
+                    ->label('Master Data'),
                 \Filament\Navigation\NavigationGroup::make()
-                     ->label('Laporan Keuangan'),
+                    ->label('Laporan Keuangan'),
             ])
             ->pages([
                 Pages\Dashboard::class,
@@ -83,7 +83,7 @@ class AdminPanelProvider extends PanelProvider
             )
             ->renderHook(
                 \Filament\View\PanelsRenderHook::BODY_END,
-                fn (): string => \Illuminate\Support\Facades\Blade::render('@include("filament.widgets.panduan-floating")'),
+                fn(): string => \Illuminate\Support\Facades\Blade::render('@include("filament.widgets.panduan-floating")'),
             );
     }
 }
