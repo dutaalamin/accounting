@@ -112,9 +112,8 @@ class BukuBesarReport extends Page implements HasForms
         $this->lines = JournalEntryLine::where('account_id', $accountId)
             ->whereHas('journalEntry', fn ($q) => $q->whereBetween('date', [$startDate, $endDate]))
             ->with('journalEntry')
-            ->orderBy('journalEntry.date')
             ->get()
-            ->sortBy(fn ($line) => $line->journalEntry->date);
+            ->sortBy(fn ($line) => $line->journalEntry?->date);
 
         $this->runningBalance = $this->openingBalance;
     }
