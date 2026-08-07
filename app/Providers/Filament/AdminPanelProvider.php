@@ -89,13 +89,23 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn(): string => '
                 <style>
-                    /* Custom Citrus Theme: Sidebar, Header, Topbar & Main Layout Backgrounds */
+                    /* Custom Citrus Theme: Sidebar, Header, Topbar, Main Layout, Cards, Sections & Widgets */
                     body, 
                     .fi-layout, 
                     .fi-main, 
                     .fi-sidebar, 
                     .fi-sidebar-header, 
-                    .fi-topbar {
+                    .fi-topbar,
+                    .fi-topbar > *,
+                    .fi-section,
+                    .fi-section-header,
+                    .fi-card,
+                    .fi-wi-stats-overview-card,
+                    .fi-wi-stats-overview-stat,
+                    .fi-wi-widget,
+                    .fi-ta-ctn,
+                    .fi-ta-header,
+                    .fi-ta-record {
                         background-color: #FCF6EE !important; /* Soft warm orange-citrus paper tint */
                     }
                     
@@ -104,7 +114,17 @@ class AdminPanelProvider extends PanelProvider
                     .dark .fi-main, 
                     .dark .fi-sidebar, 
                     .dark .fi-sidebar-header, 
-                    .dark .fi-topbar {
+                    .dark .fi-topbar,
+                    .dark .fi-topbar > *,
+                    .dark .fi-section,
+                    .dark .fi-section-header,
+                    .dark .fi-card,
+                    .dark .fi-wi-stats-overview-card,
+                    .dark .fi-wi-stats-overview-stat,
+                    .dark .fi-wi-widget,
+                    .dark .fi-ta-ctn,
+                    .dark .fi-ta-header,
+                    .dark .fi-ta-record {
                         background-color: #171109 !important; /* Warm dark cocoa/citrus */
                     }
 
@@ -113,16 +133,34 @@ class AdminPanelProvider extends PanelProvider
                         border-right: 1px solid #F3E6D5 !important;
                     }
                     .fi-sidebar-header, 
-                    .fi-topbar {
-                        border-bottom: 1px solid #F3E6D5 !important;
+                    .fi-topbar,
+                    .fi-section,
+                    .fi-card,
+                    .fi-wi-stats-overview-card,
+                    .fi-wi-stats-overview-stat,
+                    .fi-wi-widget,
+                    .fi-ta-ctn,
+                    .fi-ta-header,
+                    .fi-ta-record,
+                    hr {
+                        border-color: #F3E6D5 !important;
                     }
 
                     .dark .fi-sidebar {
                         border-right: 1px solid #2B1E11 !important;
                     }
                     .dark .fi-sidebar-header, 
-                    .dark .fi-topbar {
-                        border-bottom: 1px solid #2B1E11 !important;
+                    .dark .fi-topbar,
+                    .dark .fi-section,
+                    .dark .fi-card,
+                    .dark .fi-wi-stats-overview-card,
+                    .dark .fi-wi-stats-overview-stat,
+                    .dark .fi-wi-widget,
+                    .dark .fi-ta-ctn,
+                    .dark .fi-ta-header,
+                    .dark .fi-ta-record,
+                    .dark hr {
+                        border-color: #2B1E11 !important;
                     }
                 </style>
                 ',
