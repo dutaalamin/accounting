@@ -16,73 +16,51 @@
     </x-filament::section>
 
     {{-- Summary Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Saldo Kas Awal -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 transition duration-300 hover:shadow-md">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-gray-400"></div>
-            <div class="flex items-center gap-x-3 pl-1">
-                <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-gray-800">
-                    <x-heroicon-o-clipboard-document-list class="w-6 h-6 text-gray-500 dark:text-gray-400" />
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
+            <div class="absolute top-0 left-0 w-2 h-full bg-gray-400"></div>
+            <div class="flex items-center gap-x-4 pl-2">
+                <div class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
+                    <x-heroicon-o-clipboard-document-list class="w-7 h-7 text-gray-500 dark:text-gray-400" />
                 </div>
                 <div>
-                    <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Kas Awal</p>
-                    <p class="text-lg font-bold text-gray-900 dark:text-white mt-0.5">Rp {{ number_format($openingCash, 0, ',', '.') }}</p>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Saldo Kas Awal</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">Rp {{ number_format($openingCash, 0, ',', '.') }}</p>
                 </div>
             </div>
         </div>
 
-        <!-- Arus Kas Operasi -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 transition duration-300 hover:shadow-md">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
-            <div class="flex items-center gap-x-3 pl-1">
-                <div class="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10">
-                    <x-heroicon-o-building-storefront class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+        <!-- Perubahan Kas Bersih -->
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
+            <div class="absolute top-0 left-0 w-2 h-full {{ $netChange >= 0 ? 'bg-emerald-500' : 'bg-rose-500' }}"></div>
+            <div class="flex items-center gap-x-4 pl-2">
+                <div class="p-3 rounded-xl {{ $netChange >= 0 ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-rose-50 dark:bg-rose-500/10' }}">
+                    <x-heroicon-o-{{ $netChange >= 0 ? 'arrow-trending-up' : 'arrow-trending-down' }} class="w-7 h-7 {{ $netChange >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}" />
                 </div>
                 <div>
-                    <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Kas Operasi</p>
-                    <p class="text-lg font-bold mt-0.5 {{ $operatingFlow >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}">Rp {{ number_format($operatingFlow, 0, ',', '.') }}</p>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Perubahan Kas Bersih</p>
+                    <p class="text-2xl font-bold mt-1 {{ $netChange >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}">Rp {{ number_format($netChange, 0, ',', '.') }}</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Arus Kas Investasi -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 transition duration-300 hover:shadow-md">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-amber-500"></div>
-            <div class="flex items-center gap-x-3 pl-1">
-                <div class="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-500/10">
-                    <x-heroicon-o-cube class="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div>
-                    <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Kas Investasi</p>
-                    <p class="text-lg font-bold mt-0.5 {{ $investingFlow >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}">Rp {{ number_format($investingFlow, 0, ',', '.') }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Arus Kas Pendanaan -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 transition duration-300 hover:shadow-md">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
-            <div class="flex items-center gap-x-3 pl-1">
-                <div class="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10">
-                    <x-heroicon-o-banknotes class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div>
-                    <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Kas Pendanaan</p>
-                    <p class="text-lg font-bold mt-0.5 {{ $financingFlow >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}">Rp {{ number_format($financingFlow, 0, ',', '.') }}</p>
-                </div>
+            {{-- Detail breakdown --}}
+            <div class="mt-4 pt-3 border-t border-gray-100 dark:border-white/5 space-y-1 pl-2 text-xs text-gray-500 dark:text-gray-400">
+                <div class="flex justify-between"><span>Operasi</span><span class="font-semibold {{ $operatingFlow >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">Rp {{ number_format($operatingFlow, 0, ',', '.') }}</span></div>
+                <div class="flex justify-between"><span>Investasi</span><span class="font-semibold {{ $investingFlow >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">Rp {{ number_format($investingFlow, 0, ',', '.') }}</span></div>
+                <div class="flex justify-between"><span>Pendanaan</span><span class="font-semibold {{ $financingFlow >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">Rp {{ number_format($financingFlow, 0, ',', '.') }}</span></div>
             </div>
         </div>
 
         <!-- Saldo Kas Akhir -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 transition duration-300 hover:shadow-md">
-            <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-600"></div>
-            <div class="flex items-center gap-x-3 pl-1">
-                <div class="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10">
-                    <x-heroicon-o-wallet class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
+            <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+            <div class="flex items-center gap-x-4 pl-2">
+                <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10">
+                    <x-heroicon-o-wallet class="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div>
-                    <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Kas Akhir</p>
-                    <p class="text-lg font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">Rp {{ number_format($closingCash, 0, ',', '.') }}</p>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Saldo Kas Akhir</p>
+                    <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">Rp {{ number_format($closingCash, 0, ',', '.') }}</p>
                 </div>
             </div>
         </div>
