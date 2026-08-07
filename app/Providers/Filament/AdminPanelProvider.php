@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Accounting')
             ->spa()
             ->colors([
-                'primary' => \Filament\Support\Colors\Color::Indigo, // Warna Biru Elegan
+                'primary' => \Filament\Support\Colors\Color::Orange, // Warna Orange Lemon Jeruk
                 'gray' => \Filament\Support\Colors\Color::Zinc,
                 'info' => \Filament\Support\Colors\Color::Sky,
                 'success' => \Filament\Support\Colors\Color::Emerald,
@@ -84,6 +84,31 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 \Filament\View\PanelsRenderHook::BODY_END,
                 fn(): string => \Illuminate\Support\Facades\Blade::render('@include("filament.widgets.panduan-floating")'),
+            )
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::STYLES,
+                fn(): string => '
+                <style>
+                    /* Custom Citrus Sidebar Style */
+                    .fi-sidebar {
+                        background-color: #FCF6EE !important; /* Soft warm orange-citrus tint */
+                        border-right: 1px solid #F3E6D5 !important;
+                    }
+                    .dark .fi-sidebar {
+                        background-color: #171109 !important; /* Warm dark cocoa/citrus */
+                        border-right: 1px solid #2B1E11 !important;
+                    }
+                    /* Sidebar Header (Brand Name) matching bg */
+                    .fi-sidebar-header {
+                        background-color: #FCF6EE !important;
+                        border-bottom: 1px solid #F3E6D5 !important;
+                    }
+                    .dark .fi-sidebar-header {
+                        background-color: #171109 !important;
+                        border-bottom: 1px solid #2B1E11 !important;
+                    }
+                </style>
+                ',
             );
     }
 }
