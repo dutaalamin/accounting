@@ -151,6 +151,8 @@ class ArusKasReport extends Page implements HasForms
         foreach ($expenseAccounts as $account) {
             $flow = $this->accountFlow($account, $startDate, $endDate);
             if (abs($flow) > 0) {
+                // Beban (expense) = kas KELUAR, jadi nilainya dinegatifkan agar tampak merah & mengurangi arus kas operasi
+                $flow = -$flow;
                 $this->operatingDetails->push(['name' => $account->name, 'code' => $account->code, 'amount' => $flow]);
                 $this->operatingFlow += $flow;
             }
@@ -175,9 +177,23 @@ class ArusKasReport extends Page implements HasForms
         }
 
         // === AKTIVITAS INVESTASI ===
-        // Aset non-kas lainnya (jika ada di masa depan). Saat ini kosong.
+        // Aset non-kas (selain kas/bank/piutang/uang muka/PPN) — mis. alat berat, peralatan, aset tetap lain.
         $this->investingFlow = 0;
         $this->investingDetails = collect();
+
+        $cashAndRelatedCodes = ['111', '112', '113', '114', '115']; // Kas, Bank, Piutang, Uang Muka, PPN Masukan
+        $investingAccounts = Account::where('type', 'asset')
+            ->whereNotIn('code', $cashAndRelatedCodes)
+            ->get();
+        foreach ($investingAccounts as $account) {
+            $flow = $this->accountFlow($account, $startDate, $endDate);
+            if (abs($flow) > 0) {
+                // Untuk aset: debit = pembelian aset (kas keluar => negatif), credit = penjualan aset (kas masuk => positif)
+                $flow = -$flow;
+                $this->investingDetails->push(['name' => $account->name, 'code' => $account->code, 'amount' => $flow]);
+                $this->investingFlow += $flow;
+            }
+        }
 
         // === AKTIVITAS PENDANAAN ===
         // Modal (equity)
