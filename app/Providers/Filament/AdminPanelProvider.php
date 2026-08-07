@@ -89,22 +89,39 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn(): string => '
                 <style>
-                    /* Custom Citrus Sidebar Style */
+                    /* Custom Citrus Theme: Sidebar, Header, Topbar & Main Layout Backgrounds */
+                    body, 
+                    .fi-layout, 
+                    .fi-main, 
+                    .fi-sidebar, 
+                    .fi-sidebar-header, 
+                    .fi-topbar {
+                        background-color: #FCF6EE !important; /* Soft warm orange-citrus paper tint */
+                    }
+                    
+                    .dark body, 
+                    .dark .fi-layout, 
+                    .dark .fi-main, 
+                    .dark .fi-sidebar, 
+                    .dark .fi-sidebar-header, 
+                    .dark .fi-topbar {
+                        background-color: #171109 !important; /* Warm dark cocoa/citrus */
+                    }
+
+                    /* Borders matching the citrus theme */
                     .fi-sidebar {
-                        background-color: #FCF6EE !important; /* Soft warm orange-citrus tint */
                         border-right: 1px solid #F3E6D5 !important;
                     }
-                    .dark .fi-sidebar {
-                        background-color: #171109 !important; /* Warm dark cocoa/citrus */
-                        border-right: 1px solid #2B1E11 !important;
-                    }
-                    /* Sidebar Header (Brand Name) matching bg */
-                    .fi-sidebar-header {
-                        background-color: #FCF6EE !important;
+                    .fi-sidebar-header, 
+                    .fi-topbar {
                         border-bottom: 1px solid #F3E6D5 !important;
                     }
-                    .dark .fi-sidebar-header {
-                        background-color: #171109 !important;
+
+                    .dark .fi-sidebar {
+                        border-right: 1px solid #2B1E11 !important;
+                    }
+                    .dark .fi-sidebar-header, 
+                    .dark .fi-topbar {
                         border-bottom: 1px solid #2B1E11 !important;
                     }
                 </style>
