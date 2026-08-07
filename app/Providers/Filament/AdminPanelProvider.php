@@ -86,7 +86,7 @@ class AdminPanelProvider extends PanelProvider
                 fn(): string => \Illuminate\Support\Facades\Blade::render('@include("filament.widgets.panduan-floating")'),
             )
             ->renderHook(
-                \Filament\View\PanelsRenderHook::STYLES,
+                \Filament\View\PanelsRenderHook::HEAD_END,
                 fn(): string => '
                 <style>
                     /* Custom Citrus Sidebar Style */
