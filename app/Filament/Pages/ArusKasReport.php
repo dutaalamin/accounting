@@ -16,7 +16,7 @@ class ArusKasReport extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
     protected static ?string $navigationGroup = 'Laporan Keuangan';
     protected static ?string $navigationLabel = 'Arus Kas (Cash Flow)';
     protected static ?string $title = 'Laporan Arus Kas';

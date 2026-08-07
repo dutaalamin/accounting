@@ -16,7 +16,7 @@ class LabaRugiReport extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
     protected static ?string $navigationGroup = 'Laporan Keuangan';
     protected static ?string $navigationLabel = 'Laba Rugi (Income Statement)';
     protected static ?string $title = 'Laporan Laba Rugi Bersih';

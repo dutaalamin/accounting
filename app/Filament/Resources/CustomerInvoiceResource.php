@@ -15,7 +15,7 @@ class CustomerInvoiceResource extends Resource
 {
     protected static ?string $model = CustomerInvoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-up-tray';
     protected static ?string $navigationGroup = 'Piutang Usaha';
     protected static ?string $modelLabel = 'Tagihan Pelanggan';
     protected static ?string $pluralModelLabel = 'Tagihan Pelanggan';

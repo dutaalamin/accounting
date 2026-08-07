@@ -15,7 +15,7 @@ class SupplierInvoiceResource extends Resource
 {
     protected static ?string $model = SupplierInvoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-down-tray';
     protected static ?string $navigationGroup = 'Hutang Usaha';
     protected static ?string $modelLabel = 'Tagihan Pemasok';
     protected static ?string $pluralModelLabel = 'Tagihan Pemasok';
