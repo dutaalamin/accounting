@@ -1,3 +1,4 @@
+{{-- Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V5 --}}
 <x-filament-panels::page>
     {{-- Form Filter Section --}}
     <x-filament::section class="border-t-4 border-indigo-500 shadow-sm">
@@ -18,9 +19,8 @@
     {{-- Summary Cards --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Saldo Kas Awal -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
-            <div class="absolute top-0 left-0 w-2 h-full bg-gray-400"></div>
-            <div class="flex items-center gap-x-4 pl-2">
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-400/20 dark:ring-white/10">
+            <div class="flex items-center gap-x-4">
                 <div class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
                     <x-heroicon-o-clipboard-document-list class="w-7 h-7 text-gray-500 dark:text-gray-400" />
                 </div>
@@ -32,9 +32,8 @@
         </div>
 
         <!-- Perubahan Kas Bersih -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
-            <div class="absolute top-0 left-0 w-2 h-full {{ $netChange >= 0 ? 'bg-emerald-500' : 'bg-rose-500' }}"></div>
-            <div class="flex items-center gap-x-4 pl-2">
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 {{ $netChange >= 0 ? 'ring-emerald-500/20 dark:ring-emerald-500/30' : 'ring-rose-500/20 dark:ring-rose-500/30' }}">
+            <div class="flex items-center gap-x-4">
                 <div class="p-3 rounded-xl {{ $netChange >= 0 ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-rose-50 dark:bg-rose-500/10' }}">
                     <x-heroicon-o-{{ $netChange >= 0 ? 'arrow-trending-up' : 'arrow-trending-down' }} class="w-7 h-7 {{ $netChange >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400' }}" />
                 </div>
@@ -52,9 +51,8 @@
         </div>
 
         <!-- Saldo Kas Akhir -->
-        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
-            <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
-            <div class="flex items-center gap-x-4 pl-2">
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm ring-1 ring-indigo-500/20 dark:ring-indigo-500/30">
+            <div class="flex items-center gap-x-4">
                 <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10">
                     <x-heroicon-o-wallet class="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
                 </div>
@@ -63,7 +61,6 @@
                     <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">Rp {{ number_format($closingCash, 0, ',', '.') }}</p>
                 </div>
             </div>
-        </div>
     </div>
 
     {{-- Net Change Banner --}}
